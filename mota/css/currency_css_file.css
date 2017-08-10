@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    border:0;
+    text-decoration: none;
+    list-style: none;
+    font-family:'微软雅黑';
+    font-weight:normal;
+    outline:none;
+}
+.clearfix{
+    clear: both;
+}

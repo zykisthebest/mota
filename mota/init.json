@@ -1,0 +1,22 @@
+{
+	"f1":
+	{
+		"map":
+		[
+			["t","e","e","e","e","e","e","e","e","e","e"],
+			["w","w","w","w","w","w","w","w","w","w","e"],
+			["red-syrup","e","e","yellow-door","e","w","red-gem","yellow-key","e","w","e"],
+			["e","monster","e","w","e","w","blue-gem","red-syrup","e","w","e"],
+			["w","yellow-door","w","w","e","w","w","w","yellow-door","w","e"],
+			["yellow-key","e","e","w","e","yellow-door","monster","monster","monster","w","e"],
+			["e","monster","e","w","e","w","w","w","w","w","e"],
+			["w","yellow-door","w","w","e","e","e","e","e","e","e"],
+			["e","e","e","w","w","yellow-door","w","w","w","yellow-door","w"],
+			["red-syrup","e","yellow-key","w","yellow-key","e","e","w","e","monster","e"],
+			["red-syrup","quanzhang","yellow-key","w","e","e","e","w","monster","blue-syrup","monster"]
+			
+		]
+	},
+	"f2":"2",
+	"f3":"3"
+}

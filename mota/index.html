@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/currency_css_file.css" />
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<style>
+			.center-box{
+				position: relative;
+			}
+			.map-cell {
+				width: 100px;
+				height: 100px;
+				position: absolute;
+			}
+			.items-box{
+				position: absolute;
+				top:0;
+				left:0;
+			}
+			.item{
+				position: absolute;
+				text-align: center;
+				color: #f00;
+				width: 100px;
+				height: 100px;
+				line-height: 100px;
+				font-size: 40px;
+				background-position: center center;
+			}
+			img{
+				display: block;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="center-box" id="center-box"></div>
+		<div class="items-box"></div>
+		<script type="text/javascript">
+			var map = new Array();
+			for(var i=0;i<11;i++){
+				map[i] = new Array();
+				for(var j=0;j<11;j++){
+					map[i][j]==0;
+				}
+			}
+			$(function(){
+				init();
+			})
+			function init(){
+				getMap();
+			}
+			
+			function getMap() {
+				$.getJSON("init.json", function(data) {
+					for(var i = 0; i < 11; i++) {
+						for(var j = 0; j < 11; j++) {
+							map[i][j] = data.f1.map[i][j];
+							$("#center-box").append("<div class='map-cell' id='map-cell-"+i+"-"+j+"' ></div>")
+							$("#map-cell-"+i+"-"+j).css({
+								"background": getMapBackground(i,j),
+								"left":getMapPositionLeft(i,j),
+								"top":getMapPositionTop(i,j)
+							})
+							$("#map-cell-"+i+"-"+j).text(map[i][j])
+							if(map[i][j]!="e"&&map[i][j]!="w"){
+								console.log("<div class='item "+map[i][j]+"' id='"+map[i][j]+"-"+i+"-"+j+"'></div>")
+								$(".items-box").append("<div class='item "+map[i][j]+"' id='"+map[i][j]+"-"+i+"-"+j+"'></div>")
+								//$("#"+map[i][j]+"-"+i+"-"+j).text("go")
+								$("#"+map[i][j]+"-"+i+"-"+j).css({
+									"left":getMapPositionLeft(i,j),
+									"top":getMapPositionTop(i,j)
+								})
+								getItemImg(i,j);
+							}
+						}
+					}
+					function getItemImg(row,col){
+						$("#"+map[row][col]+"-"+row+"-"+col).append("<img src='img/t.png'>")
+					}
+					function getMapBackground(row,col){
+						switch (map[row][col])
+						{
+						case "w":
+							return "url(img/wall01.png)";
+							break;
+						default:
+							return "url(img/ground01.png)";
+							break;
+						}
+					}
+					function getMapPositionLeft(row,col){
+						return (col*100)
+					}
+					function getMapPositionTop(row,col){
+						return (row*100)
+					}
+					//------------------------------------------------------------
+				})
+			}
+		
+			
+			
+		</script>
+		
+	</body>
+
+</html>

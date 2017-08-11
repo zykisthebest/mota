@@ -34,13 +34,21 @@
 				display: block;
 				width: 100%;
 			}
+			.role-box{
+				width: 100px;
+				height: 100px;
+				background: #325135;
+				position: absolute;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="center-box" id="center-box"></div>
 		<div class="items-box"></div>
+		<div class="role-box"></div>
 		<script type="text/javascript">
 			var map = new Array();
+			var role = [0,0];
 			for(var i=0;i<11;i++){
 				map[i] = new Array();
 				for(var j=0;j<11;j++){
@@ -58,7 +66,7 @@
 				$.getJSON("init.json", function(data) {
 					for(var i = 0; i < 11; i++) {
 						for(var j = 0; j < 11; j++) {
-							map[i][j] = data.f1.map[i][j];
+							map[i][j] = data.map.f1[i][j];
 							$("#center-box").append("<div class='map-cell' id='map-cell-"+i+"-"+j+"' ></div>")
 							$("#map-cell-"+i+"-"+j).css({
 								"background": getMapBackground(i,j),
@@ -67,7 +75,7 @@
 							})
 							$("#map-cell-"+i+"-"+j).text(map[i][j])
 							if(map[i][j]!="e"&&map[i][j]!="w"){
-								console.log("<div class='item "+map[i][j]+"' id='"+map[i][j]+"-"+i+"-"+j+"'></div>")
+								//console.log("<div class='item "+map[i][j]+"' id='"+map[i][j]+"-"+i+"-"+j+"'></div>")
 								$(".items-box").append("<div class='item "+map[i][j]+"' id='"+map[i][j]+"-"+i+"-"+j+"'></div>")
 								//$("#"+map[i][j]+"-"+i+"-"+j).text("go")
 								$("#"+map[i][j]+"-"+i+"-"+j).css({
@@ -92,18 +100,88 @@
 							break;
 						}
 					}
-					function getMapPositionLeft(row,col){
-						return (col*100)
-					}
-					function getMapPositionTop(row,col){
-						return (row*100)
-					}
+					
+					role=data.role;
+					$(".role-box").css({
+						"left":getMapPositionLeft(role[0],role[1]),
+						"top":getMapPositionTop(role[0],role[1]),
+					})
 					//------------------------------------------------------------
 				})
 			}
-		
+			function getMapPositionLeft(row,col){
+				return (col*100)
+			}
+			function getMapPositionTop(row,col){
+				return (row*100)
+			}
+		$(document).keydown(function(e){
+			switch(event.keyCode){
+			case 37:
+				event.preventDefault();
+				if(canMoveLeft(role[0],role[1])){
+					roleMove(role[0],Number(role[1])-1);
+					role[1]=Number(role[1])-1;
+				}
+				
+				break;
+			case 38:
+				event.preventDefault();
+				if(canMoveTop(role[0],role[1])){
+					roleMove(Number(role[0])-1,role[1]);
+					role[0]=Number(role[0])-1;
+				}
+				break;
+			case 39:
+				event.preventDefault();
+				if(canMoveRight(role[0],role[1])){
+					roleMove(role[0],Number(role[1])+1);
+					role[1]=Number(role[1])+1;
+				}
+				break;
+			case 40:
+				event.preventDefault();
+				if(canMoveDown(role[0],role[1])){
+					roleMove(Number(role[0])+1,role[1]);
+					console.log(Number(role[0])+1)
+					role[0]=Number(role[0])+1;
+				}
+				break;
+			}
+		})
+			function roleMove(toX,toY){
+				console.log(getMapPositionLeft(toX,toY));
+				$(".role-box").animate({
+					"left":getMapPositionLeft(toX,toY),
+					"top":getMapPositionTop(toX,toY)
+				},300)
+			}
 			
 			
+			function canMoveLeft(x,y){
+				if(map[x][y-1]=="w"||map[x][y-1]==undefined){
+					return false;
+				}
+				return true;
+			}
+			function canMoveRight(x,y){
+				if(map[x][y+1]=="w"||map[x][y+1]==undefined){
+					return false;
+				}
+				return true;
+			}
+			function canMoveTop(x,y){
+				if(map[x-1][y]=="w"||map[x-1][y]==undefined){
+					return false;
+				}
+				return true;
+			}
+			function canMoveDown(x,y){
+				if(map[x+1][y]=="w"||map[x+1][y]==undefined){
+					return false;
+				}
+				return true;
+			}
 		</script>
 		
 	</body>
